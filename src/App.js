@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Contact from "./components/Contact";
+import Student from "./components/Student";
 import "./App.css";
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
     <div className="App">
       <header className="App-header">Hatchways App</header>
       <main>
-        <Contact students={students} />
+        <Student students={students} />
       </main>
     </div>
   );
