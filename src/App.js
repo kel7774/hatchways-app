@@ -12,6 +12,7 @@ function App() {
   const [query, updateQuery] = useState("");
   const [tags, setTags] = useState([]);
   const [tagQuery, setTagQuery] = useState("");
+  console.log("tags from app: ", tags);
 
   const getStudents = async () => {
     setLoading(true);
@@ -31,22 +32,27 @@ function App() {
     minMatchCharLength: 2,
   });
 
+  function handleChange(e) {
+    updateQuery(e.target.value);
+  }
+
+  const results = fuse.search(query);
+  const studentResults = query ? results.map((s) => s.item) : students;
+
   const tagFuse = new Fuse(tags, {
     keys: ["text", "id"],
     includesMatches: true,
     minMatchCharLength: 2,
   });
 
-  function handleChange(e) {
-    updateQuery(e.target.value);
-  }
-
   function handleTags(e) {
     setTagQuery(e.target.value);
   }
 
-  const results = fuse.search(query);
-  const studentResults = query ? results.map((s) => s.item) : students;
+  const update = (t) => {
+    t = tags;
+    setTags(t);
+  };
 
   const tagResults = tagFuse.search(tagQuery);
   const taggedResults = tagQuery ? tagResults.map((s) => s.item) : tags;
@@ -62,9 +68,13 @@ function App() {
         <Search query={query} handleChange={handleChange} />
         <TagSearch query={tagQuery} handleTags={handleTags} />
         {studentResults &&
-          studentResults.map((s, key) => <Student key={key} students={s} />)}
+          studentResults.map((s, key) => (
+            <Student key={key} students={s} update={update} />
+          ))}
         {taggedResults &&
-          taggedResults.map((s, key) => <Student key={key} students={s} />)}
+          taggedResults.map((s, key) => (
+            <Student key={key} students={s} update={update} />
+          ))}
       </main>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Collapsible from "../components/Collapsible";
 import findAverage from "../helpers/findAverage";
 import Styles from "../styles/StudentStyles";
@@ -10,9 +10,10 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-const Student = ({ students }) => {
+const Student = ({ students, update }) => {
   const [isOpened, setIsOpened] = useState(false);
   const [tags, setTags] = useState([]);
+  console.log("tags from student:", tags);
 
   const collapse = () => {
     setIsOpened(!isOpened);
@@ -20,12 +21,21 @@ const Student = ({ students }) => {
 
   const handleDelete = (i) => {
     const deleted = tags.filter((tag, index) => index !== i);
-    setTags(deleted);
+    // setTags(deleted);
+    update(deleted);
   };
 
   const handleAddition = (tag, i) => {
-    setTags([...tags, tag]);
+    let result = tags;
+    result.push(tag);
+    // setTags(result);
+    update(result);
   };
+
+  useEffect(() => {
+    setTags(tags);
+  }, [tags]);
+
   return (
     <Styles>
       <div className="student-container">
