@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { WithContext as ReactTags } from "react-tag-input";
-import { Collapse } from "react-collapse";
+import Collapsible from "../components/Collapsible";
 import findAverage from "../helpers/findAverage";
 import Styles from "../styles/StudentStyles";
 
@@ -13,7 +12,7 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 const Student = ({ students }) => {
   const [isOpened, setIsOpened] = useState(false);
-  const [tags, setTags] = useState(["react"]);
+  const [tags, setTags] = useState([]);
 
   const collapse = () => {
     setIsOpened(!isOpened);
@@ -24,8 +23,8 @@ const Student = ({ students }) => {
     setTags(deleted);
   };
 
-  const handleAddition = (tag) => {
-    setTags(tags.push(tag));
+  const handleAddition = (tag, i) => {
+    setTags([...tags, tag]);
   };
   return (
     <Styles>
@@ -39,24 +38,14 @@ const Student = ({ students }) => {
           <p>Company: {students.company}</p>
           <p>Skill: {students.skill}</p>
           <p>Average: {findAverage(students.grades)}</p>
-          <Collapse isOpened={isOpened}>
-            {students.grades.map((g, index) => (
-              <div>
-                <ul key={index} className="grades-list">
-                  <li>
-                    Test {index + 1}: {g}%
-                  </li>
-                </ul>
-              </div>
-            ))}
-            <ReactTags
-              tags={tags}
-              handleDelete={handleDelete}
-              handleAddition={handleAddition}
-              draggable={false}
-              delimiters={delimiters}
-            />
-          </Collapse>
+          <Collapsible
+            students={students}
+            delimiters={delimiters}
+            handleDelete={handleDelete}
+            handleAddition={handleAddition}
+            isOpened={isOpened}
+            tags={tags}
+          />
         </div>
       </div>
       <button onClick={collapse}>+</button>
