@@ -1,18 +1,18 @@
 import React from "react";
 import Styles from "../styles/SearchStyles";
 
-const Search = ({ query, handleChange }) => {
+const TagsSearch = ({ query, handleTags }) => {
   return (
     <Styles>
       <input
         type="text"
-        placeholder="Search Name ..."
+        placeholder="Search Tags ..."
         id="name-input"
         value={query}
-        onChange={handleChange}
+        onChange={handleTags}
       />
     </Styles>
   );
 };
 
-export default Search;
+export default TagsSearch;
