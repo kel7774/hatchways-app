@@ -6,7 +6,6 @@ const Styles = styled.section`
   .student-container {
     display: flex;
     flex-direction: row;
-    width: 100%;
     padding: 3rem 0;
     h1 {
       font-size: 3rem;
